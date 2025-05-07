@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - KeepsWithMe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --danger-color: #f72545;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            padding-bottom: 80px;
+        }
+        
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+        
+        .profile-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: var(--box-shadow);
+            margin-right: 20px;
+        }
+        
+        .profile-info h2 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-info p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-card h3 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .stats-card p {
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+        
+        .deleted-notes {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-top: 30px;
+        }
+        
+        .deleted-notes h3 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--danger-color);
+        }
+        
+        .table {
+            width: 100%;
+          
+        }
+        
+        .table th {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 500;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .btn-logout {
+            background-color: var(--danger-color);
+            color: white;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        
+        .btn-logout:hover {
+            background-color: #e51c3b;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 1030;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+        
+        .bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 0 10px;
+            flex: 1;
+            max-width: 25%;
+        }
+        
+        .bottom-nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        .bottom-nav a.active {
+            color: var(--primary-color);
+        }
+        
+        .bottom-nav i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .bottom-nav span {
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .profile-container {
+                padding: 0 15px;
+            }
+            
+            .stats-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-white shadow-sm d-none d-md-flex">
+        <div class="container">
+            <span class="navbar-brand fw-bold">KeepsWithMe</span>
+            <div class="bottom-nav">
+                <a href="#" class="active">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <span>Notes</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Collaborate</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-puzzle-piece"></i>
+                    <span>Features</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>To-Do</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <nav class="navbar bg-white d-flex d-md-none shadow-sm">
+        <div class="container justify-content-between">
+            <span class="fw-bold text-primary">KeepsWithMe</span>
+            <span class="text-muted">
+                <a href="#" style="text-decoration:none; color:black;">
+                    <img src="https://ui-avatars.com/api/?name={{username}}&background=random" style="width:40px; height:40px; border-radius:50%;"/>
+                </a>
+            </span>
+        </div>
+    </nav>
+    
+    <div class="profile-container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="profile-header">
+                    <img src="https://ui-avatars.com/api/?name={{user_info['name']}}&background=random&size=100" class="profile-avatar" alt="Profile Avatar">
+                    <div class="profile-info">
+                        <h2>Hello, {{user_info['name']}}</h2>
+                        <p>{{user_info['email']}}</p>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <h3>{{notes_per_user}}</h3>
+                    <p>Total Notes</p>
+                </div>
+                
+                <div class="stats-card">
+                    <h3>{{user_info['name']}}</h3>
+                    <p>Your Name</p>
+                </div>
+                
+                <div class="stats-card">
+                    <h3>{{user_info['email']}}</h3>
+                    <p>Registered Email</p>
+                </div>
+                
+                <a href="/logout" class="btn btn-logout d-block text-center">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="deleted-notes">
+                    <h3><i class="fas fa-trash-alt me-2"></i>Your Deleted Notes</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Note Title</th>
+                                   
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if t_notes%}
+                                {% for i in t_notes%}
+                                <tr>
+                                    <td>{{i["title"]}}</td>
+                                    <td> <button class="btn btn-danger"> Delete Permantly </button></td>
+                                    <td> <button class="btn btn-primary"> Recovery Permantly </button></td>
+                                </tr>
+                                
+                                {%endfor%}
+                                
+                                
+      
+                            </tbody>
+                        </table>
+                        {% else %}
+                                 <P> No Trash </P>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav d-flex d-md-none">
+        <a href="#" class="active">
+            <i class="fa-solid fa-note-sticky"></i>
+            <span>Notes</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-users"></i>
+            <span>Collaborate</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-puzzle-piece"></i>
+            <span>Features</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-list-check"></i>
+            <span>To-Do</span>
+        </a>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

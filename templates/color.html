@@ -1,0 +1,39 @@
+<style>
+    .color-options {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .color-radio {
+      appearance: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border 0.2s ease-in-out;
+    }
+    
+    .color-radio:checked {
+      border: 3px solid #333333;
+    }
+    
+    /* Individual color styles */
+    .color-red { background-color: #ff4d4f; }
+    .color-blue { background-color: #1890ff; }
+    .color-green { background-color: #52c41a; }
+    .color-yellow { background-color: #fadb14; }
+    .color-purple { background-color: #722ed1; }
+    </style>
+    
+    <form>
+      <div class="color-options">
+        <input type="radio" name="color" value="red" class="color-radio color-red" />
+        <input type="radio" name="color" value="blue" class="color-radio color-blue" />
+        <input type="radio" name="color" value="green" class="color-radio color-green" />
+        <input type="radio" name="color" value="yellow" class="color-radio color-yellow" />
+        <input type="radio" name="color" value="purple" class="color-radio color-purple" />
+      </div>
+    </form>
+    

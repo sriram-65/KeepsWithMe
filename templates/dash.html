@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KeepsWithMe</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #ddd;
+      box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+      z-index: 1030;
+    }
+    .bottom-nav a {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      color: #666;
+      font-size: 13px;
+    }
+    .bottom-nav a:hover {
+      color: #0d6efd;
+    }
+    .bottom-nav a.active{
+      color:rgb(0, 94, 255);
+    }
+    .bottom-nav svg {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 4px;
+    }
+    
+    .notes-wrapper {
+      width:100%;
+      height: 30vh;
+      overflow-y: auto;
+      padding-bottom:10px;
+    }
+    
+    
+     .main img{
+      width:65%;
+     }
+     .plus {
+      position: fixed;
+      bottom:100px;
+      right: 20px;
+      z-index: 100;
+    }
+     .navbar{
+      width:100%;
+      height: 65px;
+      position: fixed;
+      z-index:100;
+     }
+    .plus h5 {
+      padding: 20px;
+      background-color: #0d6efd;
+      color: white;
+      border-radius: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: 0.5s;
+    }
+    .plus h5:hover{
+      transform: translateY(-5px);
+      transition: 0.5s;
+    
+    }
+   
+    .plus a{
+      text-decoration:none;
+    } 
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit , minmax(200px , 2fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    
+    .note-card {
+      background-color: #f9f9f9;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease;
+    }
+    
+    .note-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .card-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #333;
+      
+    }
+    
+    .card-text {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    
+    .btn.btn-primary {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      align-self: flex-start;
+    }
+    
+    .btn.btn-primary:hover {
+      background-color: #0056b3;
+    }
+    
+    
+    
+    
+  
+  </style>
+</head>
+<body>
+
+
+  <nav class="navbar navbar-expand-md bg-white shadow-sm d-none d-md-flex">
+    <div class="container">
+      <span class="navbar-brand fw-bold text-primary">KeepsWithMe</span>
+      <div class="ms-auto">
+        <span class="text-muted main"><a href="/profile" style="text-decoration:none; color:black"><img src="https://ui-avatars.com/api/?name={{username}}&background=random"/></a></span>
+      </div>
+
+      <div class="bottom-nav d-flex">
+        <a href="#" class="active">
+          <i class="fa-solid fa-note-sticky d-block"></i>
+          <small>Notes</small>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-users d-block"></i>
+          <small>Collaborate</small>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-puzzle-piece d-block"></i>
+          <small>Features</small>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-list-check d-block"></i>
+          <small>To-Do</small>
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+
+  <nav class="navbar bg-white d-flex d-md-none shadow-sm">
+    <div class="container justify-content-between">
+      <span class="fw-bold text-primary">KeepsWithMe</span>
+      <span class="text-muted main"><a href="/profile" style="text-decoration:none; color:black; "><img src="https://ui-avatars.com/api/?name={{username}}&background=random" style="width:50%"/></a></span>
+    </div>
+  </nav>
+
+
+  
+
+
+ {% if show_form %}
+ <br>
+ <br>
+ <br>
+ <br>
+  <div class="container py-4 info " style="margin-bottom: 80px;">
+    <h4 class="mb-3">Basic Information</h4>
+    <div class="mb-3">
+      <form action="/select" method="POST" enctype="multipart/form-data">
+
+        <label class="form-label">Did You Use AI on Our Platform?</label>
+        <select class="form-select" name="yes">
+          <option selected disabled>Select Option</option>
+          <option value="YES">YES</option>
+          <option value="NO">NO</option>
+        </select>
+        <label class="form-label">Where did you hear about KeepsWithMe?</label>
+        <select class="form-select" name="search" >
+          <option selected disabled>Select an option</option>
+          <option value="Google Search">Google Search</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Friend">Friend / Word of Mouth</option>
+          <option value="School">School / Teacher</option>
+          <option value="Others">Others</option>
+        </select>
+        <label for="form-label">Select Server Region Where your Data Store</label>
+        <select class="form-select" name="server" id="server">
+          <option selected disabled>Select Server Region</option>
+          <option value="Athisivan Kovil"  id="latency-output">Athisivan Kovil (Recommended)</option>
+          <option value="ThiruparaKudram" id="latency-output">ThiruparaKudram</option>
+          <option value="Maha Lakshmi Colney">Maha Lakshmi Colney</option>
+          <option value="3rd Stop" id="latency-output">3rd Stop</option>
+          <option value="5th Stop" id="latency-output">5th Stop</option>
+          <option value="USA" id="latency-output">USA</option>
+          <option value="Japan" id="latency-output">Japan</option>
+          <option value="Russia" id="latency-output">Russia</option>
+          <option value="Mumbai" id="latency-output">Mumbai</option>
+          <option value="Delhi" id="latency-output">Delhi</option>
+        </select>
+         <br>
+
+        <button type="submit" class="btn btn-dark">Done</button>
+
+      </form>
+     
+    </div>
+  </div>
+  {%else%}
+ 
+  <br>
+ 
+  {% if Notes %}
+  <br>
+  <br>
+  <h3 style="margin-top:30px; text-align:center;"> Your Notes </h3>
+  
+  <div class="container notes-grid">
+    {% for i in Notes %}
+    <div class="note-card">
+      <h5 class="card-title">{{ i.title }}</h5>
+      <p class="card-text">{{ i.content | safe }}</p>
+      <form action="{{ url_for('View_Notes', Notes_id=i._id) }}" method="GET">
+        <button class="btn btn-primary">Read More</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  
+  
+    <br>
+  {%else%}
+    <div class="container d-grid mt-5">
+      <div class="row">
+        <h1>You Don't have Any Notes Here</h1>
+        <button class="btn btn-primary" style="width: 45%; margin-left: 7px;"><a href="#" style="color:white; text-decoration: none;">Add Note</a></button>
+      </div>
+    </div>
+    {%endif%}
+
+{%endif%}  
+
+<div class="plus" id="plus">
+  <a href="/take-notes">
+    <h5>+</h5>
+  </a>
+</div>
+
+  <div class="bottom-nav d-flex d-md-none">
+    <a href="#">
+      <i class="fa-solid fa-note-sticky d-block"></i>
+      <small>Notes</small>
+    </a>
+    <a href="#">
+      <i class="fa-solid fa-users d-block"></i>
+      <small>Collaborate</small>
+    </a>
+    <a href="#">
+      <i class="fa-solid fa-puzzle-piece d-block"></i>
+      <small>Features</small>
+    </a>
+    <a href="#">
+      <i class="fa-solid fa-list-check d-block"></i>
+      <small>To-Do</small>
+    </a>
+  </div>
+
+ 
+   
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
+</body>
+</html>
+
+
+
+
+

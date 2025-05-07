@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --primary-hover: #3a56d4;
+        --danger-color: #f72545;
+        --danger-hover: #e51c3b;
+        --border-radius: 12px;
+        --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #f8fafc;
+        color: #334155;
+        padding-bottom: 80px;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+    
+    .note-header {
+        margin-bottom: 25px;
+    }
+    
+    .note-title {
+        font-weight: 600;
+        font-size: 28px;
+        border: none;
+        box-shadow: none;
+        padding: 15px 20px;
+        background: #fff;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        transition: var(--transition);
+        color: #1e293b;
+    }
+    
+    .note-title:focus {
+        box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+        outline: none;
+        border: 1px solid rgba(67, 97, 238, 0.3);
+    }
+    
+    .editor-container {
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin: 25px 0;
+        overflow: hidden;
+        transition: var(--transition);
+    }
+    
+    .editor-container:focus-within {
+        box-shadow: 0 8px 25px rgba(67, 97, 238, 0.15);
+    }
+    
+    #editor {
+        min-height: 400px;
+        width: 100%;
+        border: none;
+        padding: 20px;
+        background: #fff;
+    }
+    
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+        padding: 0 10px;
+    }
+    
+    .btn-group-right {
+        display: flex;
+        gap: 12px;
+    }
+    
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+        font-size: 14px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-outline-secondary {
+        border-color: #e2e8f0;
+        color: #64748b;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #f1f5f9;
+        color: #475569;
+        border-color: #cbd5e1;
+    }
+    
+    .btn-danger {
+        background-color: var(--danger-color);
+        border-color: var(--danger-color);
+    }
+    
+    .btn-danger:hover {
+        background-color: var(--danger-hover);
+        border-color: var(--danger-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(247, 37, 69, 0.2);
+    }
+    
+    .delete-section {
+        margin-top: 30px;
+        padding: 20px;
+        background: #fff;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+    }
+    
+    .delete-section h5 {
+        color: #dc2626;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .delete-section p {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid #f1f5f9;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+        z-index: 1030;
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #94a3b8;
+        text-decoration: none;
+        transition: var(--transition);
+        padding: 0 10px;
+        flex: 1;
+        max-width: 25%;
+    }
+    
+    .bottom-nav a:hover {
+        color: var(--primary-color);
+    }
+    
+    .bottom-nav a.active {
+        color: var(--primary-color);
+    }
+    
+    .bottom-nav i {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    
+    .bottom-nav span {
+        font-size: 11px;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            margin-top: 15px;
+            padding: 0 15px;
+        }
+        
+        .note-title {
+            font-size: 22px;
+            padding: 12px 15px;
+        }
+        
+        #editor {
+            min-height: 300px;
+            padding: 15px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        
+        .btn-group-right {
+            width: 100%;
+            justify-content: flex-end;
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <form action="{{url_for('update_note' , note_id=N._id)}}" method="POST">
+            <div class="note-header">
+                <input type="text" name="title" class="form-control note-title" placeholder="Title your note..." value="{{N.title}}" />
+            </div>
+
+            <div class="editor-container bg-white">
+                <textarea id="editor" name="content">{{N.content | safe}}</textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <div class="btn-group-right">
+                    <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="delete-section">
+            <h5>Delete This Note</h5>
+
+            <form action="{{url_for('del_note' , note_id=N._id)}}" method="POST">
+                <button class="btn btn-danger" type="submit">
+                    <i class="fas fa-trash-alt me-2"></i>Delete Note
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="#" class="active">
+            <i class="fa-solid fa-note-sticky"></i>
+            <span>Notes</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-users"></i>
+            <span>Collaborate</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-puzzle-piece"></i>
+            <span>Features</span>
+        </a>
+        <a href="#">
+            <i class="fa-solid fa-list-check"></i>
+            <span>To-Do</span>
+        </a>
+    </nav>
+
+    <script src="https://cdn.tiny.cloud/1/g07vr86co4z9834nb8dfeaebcakixs2j40h9j1x7yti8amac/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#editor',
+            height: 400,
+            menubar: false,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 
+                'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 
+                'media', 'table', 'wordcount'
+            ],
+            toolbar: 'undo redo | styleselect | bold italic underline strikethrough | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | table | removeformat | fullscreen code',
+            skin: 'oxide',
+            content_css: 'default',
+            branding: false,
+            statusbar: false,
+            setup: function(editor) {
+                editor.on('init', function() {
+                    this.getContainer().style.transition = "box-shadow 0.3s ease";
+                    this.getContainer().style.boxShadow = "0 4px 20px rgba(0,0,0,0.1)";
+                });
+                
+                editor.on('focus', function() {
+                    this.getContainer().style.boxShadow = "0 8px 25px rgba(67, 97, 238, 0.15)";
+                });
+                
+                editor.on('blur', function() {
+                    this.getContainer().style.boxShadow = "0 4px 20px rgba(0,0,0,0.1)";
+                });
+            }
+        });
+    </script>
+</body>
+</html>
